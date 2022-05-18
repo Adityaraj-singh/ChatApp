@@ -1,0 +1,112 @@
+.signup{
+    margin: 0;
+    height:auto;
+    margin-top: 50px;
+    height: 600px;
+    width: 500px;
+
+}
+.login{
+   
+    margin-top: 50px;
+    width: 500px;
+    height: 500px;
+}
+.form{
+    height: 100%;
+   
+    width: 100%;
+
+}
+.container{
+    background-color: rgb(202, 228, 169);
+    width: 100%;
+    
+   display: flex;
+   border-radius: 20px;
+   flex-direction: column;
+   justify-content: space-around;
+   min-height:70%;
+    margin: auto;
+    padding: 5px 5px 5px 5px;
+    margin-top: 50px;
+    box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+-webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+-moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+}
+
+.text-field{
+    width: 90%;
+    height:35px;
+    border:none;
+    border-radius:10px ;
+    outline: none;
+    
+}
+.submit{
+    width: 20%;
+    border-radius: 5px;
+    font-weight: bolder;
+    border: 1px solid black;
+}
+
+.field{
+    margin-left: auto;
+    margin-right: auto;
+    width: 85%;
+    height: 100%;
+    
+}
+.inputs{
+    width:auto;
+    height: 100%;
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+}
+
+.error{
+    height: 100%;
+    width:auto;
+    max-width: 85%;
+    
+    font-size: 95%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-weight: bold;
+    
+}
+
+.login-button{
+    position: relative;
+    bottom: 0px;
+   margin-bottom: 10px;
+
+}
+.submit{
+    height: 35px;
+    margin-top: 15px;
+    width: 40%;
+}
+.loginerror{
+    width: 100%;
+    color: red;
+}
+
+.checkbox{
+    margin-left: 10px;
+    margin-top: 10px;
+}
+
+#switch-sign-in{
+    align-self: flex-end;
+   position: relative;
+   right: 10px;
+  
+}
+.switch-sign-in{
+    position: relative;
+    align-self: flex-end;
+    text-decoration: none;
+    
+}

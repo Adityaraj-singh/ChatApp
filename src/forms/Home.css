@@ -1,0 +1,35 @@
+.home{
+    margin: auto;
+    position: relative;
+    top: 50px;
+    height: 300px;
+    min-width: 500px;
+    background-color: cadetblue;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+border-radius: 20px;
+}
+.name{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    font-size:28px;
+}
+.email{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    font-size:28px;
+}
+.details{
+    height: 50%;
+    background-color: rgb(116, 153, 155);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.signout{
+    width: 40%;
+}

@@ -1,0 +1,1 @@
+mongodb+srv://sample:student123@students.gkz96.mongodb.net/test

@@ -1,0 +1,13 @@
+.field{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.form{
+    margin: 0 auto;
+    width: 500px;
+    background-color: blueviolet;
+    height: 100%;
+}
+

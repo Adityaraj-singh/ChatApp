@@ -1,0 +1,42 @@
+.show{
+    width: 80%;
+}
+
+.delete{
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 5px;
+}
+
+.searchbox{
+    width :100%;
+    
+    margin-bottom: 50px;
+}
+
+.search{
+   font-size: 18px;
+    height: 40px;
+    width:40%;
+    border: none;
+    border-bottom: 1px solid black;
+}
+.search:focus{
+    outline: none;
+}
+.update-column{
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+.update{
+    width: 100px;
+}
+.update-name{
+    border: 1px solid ;
+    border-radius: 2px;
+}
