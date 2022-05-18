@@ -43,8 +43,10 @@ const Conversation = ({ chat, arrivalmessage }) => {
   }
 
   useEffect(() => {
-    console.log("addd", arrivalmessage);
-  }, [arrivalmessage]);
+    if (currentchattingfriend == arrivalmessage.sender) {
+      Setmessages([...messages, arrivalmessage]);
+    }
+  }, [arrivalmessage, currentchattingfriend]);
 
   useEffect(() => {
     socket.current = io("ws://localhost:8900");
