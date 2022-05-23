@@ -1,19 +1,22 @@
-.App{
- display: flex;
- flex-direction: row;
- justify-content: space-around;
+.App {
+  display: flex;
+  flex-direction: row;
+  background-image: url("../src/assests/wallpaperflare.com_wallpaper.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  justify-content: center;
+  align-items: center;
 }
 
-
-.show{
+.show {
   margin-left: auto;
   margin-right: auto;
   position: relative;
   top: 150px;
 }
 
-.add{
+.add {
   margin-left: auto;
   margin-right: auto;
 }
-

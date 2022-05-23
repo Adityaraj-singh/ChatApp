@@ -20,7 +20,36 @@ import Conversation from "../Messages/Conversation";
 import { AutoComplete } from "antd";
 import Chatlist from "../Messages/Chatlist";
 import { List, message, Skeleton, Divider } from "antd";
+
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import ListItemIcon from "@mui/material/ListItemIcon";
+
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import Tooltip from "@mui/material/Tooltip";
+import PersonAdd from "@mui/icons-material/PersonAdd";
+import Box from "@mui/material/Box";
+import Logout from "@mui/icons-material/Logout";
 const Home = ({ data, Setdata }) => {
+  const [windowDimenion, detectHW] = useState({
+    winWidth: window.innerWidth,
+    winHeight: window.innerHeight,
+  });
+  const detectSize = () => {
+    detectHW({
+      winWidth: window.innerWidth,
+      winHeight: window.innerHeight,
+    });
+  };
+  useEffect(() => {
+    window.addEventListener("resize", detectSize);
+
+    return () => {
+      window.removeEventListener("resize", detectSize);
+    };
+  }, [windowDimenion]);
+
   const history = useHistory();
   const dispatch = useDispatch();
   const hmm = useSelector((state) => state);
@@ -28,6 +57,39 @@ const Home = ({ data, Setdata }) => {
   const [search, setSearch] = useState("");
   const [currentchatscreenid, Setcurrentchatscreenid] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const [onlineusers, setOnlineusers] = useState([]);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  useEffect(() => {
+    //  console.log(windowDimenion);
+
+    // document.getElementById("home").style.height = windowDimenion.winHeight;
+    if (windowDimenion.winWidth < 864) {
+      if (currentchatReducer) {
+        //    console.log("----Showw chat", currentchatReducer);
+        document.getElementById("chatList").style.display = "none";
+        document.getElementById("conversationComponent").style.display =
+          "inline";
+        document.getElementById("conversationComponent").style.width = "100%";
+      } else {
+        document.getElementById("chatList").style.width = "100%";
+        document.getElementById("chatList").style.display = "inline";
+        document.getElementById("conversationComponent").style.display = "none";
+      }
+    } else {
+      document.getElementById("chatList").style.display = "block";
+      document.getElementById("conversationComponent").style.display = "inline";
+      document.getElementById("conversationComponent").style.width = "70%";
+
+      document.getElementById("chatList").style.width = "30%";
+    }
+  }, [windowDimenion, currentchatReducer]);
   const socket = useRef();
   // console.log(currentchatReducer)
   const [arrivalmessage, setArrivalmessage] = useState(false);
@@ -45,13 +107,14 @@ const Home = ({ data, Setdata }) => {
     if (hmm.islogged[0].id && hmm.islogged[0].id !== "defaultID")
       socket.current.emit("addUser", hmm.islogged[0].id);
     socket.current.on("getUsers", (users) => {
-      console.log("userss", users);
+      // console.log("userss", users);
+      setOnlineusers([...onlineusers, users]);
     });
   }, [hmm]);
 
   useEffect(() => {
     socket.current.on("getMessage", (data) => {
-      console.log("Incoming Message", data);
+      //  console.log("Incoming Message", data);
       setArrivalmessage({
         sender: data.senderId,
         text: data.text,
@@ -66,13 +129,16 @@ const Home = ({ data, Setdata }) => {
       );
       console.log("res");
       console.log(res.data);
-      console.log(res.data.length);
-      setSearchResults(res.data);
+      //  console.log(res.data.length);
+
+      setSearchResults(
+        res.data.filter((item) => item._id !== hmm.islogged[0].id)
+      );
     }
   }, [search]);
 
   useEffect(() => {
-    console.log("changingg", arrivalmessage);
+    //  console.log("changingg", arrivalmessage);
   }, [arrivalmessage]);
 
   useEffect(async () => {
@@ -100,7 +166,7 @@ const Home = ({ data, Setdata }) => {
   }, []);
 
   async function adduser(user) {
-    console.log(hmm.islogged[0].id, ":", user._id);
+    //  console.log(hmm.islogged[0].id, ":", user._id);
     await Axios.post("http://localhost:5000/Conversation/ ", {
       senderId: hmm.islogged[0].id,
       recieverId: user._id,
@@ -113,54 +179,107 @@ const Home = ({ data, Setdata }) => {
       });
   }
   return (
-    <div className="home">
+    <div className="home" id="home">
       <div className="top-bar">
-        <div className="root-username" id="root-username">
-          <Avatar
-            src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-            style={{ border: "1px solid black" }}
-            size={40}
-          ></Avatar>
+        <div className="search-box">
+          {" "}
+          <input
+            type="search"
+            className="search-bar"
+            id="search-bar"
+            placeholder="loooking for..."
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          {search.length > 0 ? (
+            <div className="search-result-box">
+              <List
+                dataSource={searchResults}
+                renderItem={(item) => (
+                  <List.Item key={item.id}>
+                    <List.Item.Meta
+                      avatar={
+                        <Avatar sx={{ width: 32, height: 32 }}>
+                          {item.name[0]}
+                        </Avatar>
+                      }
+                      title={
+                        <button href="" className="user-link" id={item._id}>
+                          <b>{item.name}</b>
+                        </button>
+                      }
+                      description={item.email}
+                    />
+                    <button onClick={() => adduser(item)}>Add</button>
+                  </List.Item>
+                )}
+              />
+            </div>
+          ) : null}
         </div>
-        <input
-          type="search"
-          className="search-bar"
-          id="search-bar"
-          placeholder="loooking for..."
-          onChange={(e) => setSearch(e.target.value)}
-        />
 
-        {search.length > 0 ? (
-          <div className="search-result-box">
-            <List
-              dataSource={searchResults}
-              renderItem={(item) => (
-                <List.Item key={item.id}>
-                  <List.Item.Meta
-                    avatar={
-                      <Avatar
-                        src={
-                          "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-                        }
-                      />
-                    }
-                    title={
-                      <button href="" className="user-link" id={item._id}>
-                        <b>{item.name}</b>
-                      </button>
-                    }
-                    description={item.email}
-                  />
-                  <button onClick={() => adduser(item)}>Add</button>
-                </List.Item>
-              )}
-            />
-          </div>
-        ) : null}
-
-        <button className="signout bg-white" id="signout" onClick={signout}>
-          <b>Signoutss</b>
-        </button>
+        <Box
+          sx={{ display: "flex", alignItems: "center", textAlign: "center" }}
+        >
+          <Tooltip title="Account settings">
+            <IconButton
+              onClick={handleClick}
+              size="small"
+              sx={{ ml: 2 }}
+              aria-controls={open ? "account-menu" : undefined}
+              aria-haspopup="true"
+              aria-expanded={open ? "true" : undefined}
+            >
+              <Avatar sx={{ width: 32, height: 32 }}>
+                {hmm?.islogged[0]?.name && hmm?.islogged[0]?.name.length > 0
+                  ? hmm.islogged[0]?.name[0]
+                  : "M"}
+              </Avatar>
+            </IconButton>
+          </Tooltip>
+        </Box>
+        <Menu
+          anchorEl={anchorEl}
+          id="account-menu"
+          open={open}
+          onClose={handleClose}
+          onClick={handleClose}
+          PaperProps={{
+            elevation: 0,
+            sx: {
+              overflow: "visible",
+              filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+              mt: 1.5,
+              "& .MuiAvatar-root": {
+                width: 32,
+                height: 32,
+                ml: -0.5,
+                mr: 1,
+              },
+              "&:before": {
+                content: '""',
+                display: "block",
+                position: "absolute",
+                top: 0,
+                right: 14,
+                width: 10,
+                height: 10,
+                bgcolor: "background.paper",
+                transform: "translateY(-50%) rotate(45deg)",
+                zIndex: 0,
+              },
+            },
+          }}
+          transformOrigin={{ horizontal: "right", vertical: "top" }}
+          anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+        >
+          <p style={{ textAlign: "center" }}>{hmm.islogged[0].name}</p>
+          <MenuItem onClick={() => signout()}>
+            <ListItemIcon>
+              <Logout fontSize="small" />
+            </ListItemIcon>
+            Logout
+          </MenuItem>
+        </Menu>
       </div>
       <div className="mobile-search" id="mobile-search">
         <input
@@ -172,18 +291,19 @@ const Home = ({ data, Setdata }) => {
       </div>
 
       <div className="chat-box">
-        <div className="chat-list">
+        <div className="chat-list" id="chatList">
           <Chatlist className="chatlist-component" />
         </div>
 
-        <div className="conversation-component">
+        <div className="conversation-component" id="conversationComponent">
           {currentchatReducer ? (
             <Conversation
+              windowDimenion={windowDimenion}
               chat={currentchatReducer}
               arrivalmessage={arrivalmessage}
             />
           ) : (
-            "No chat selected"
+            "null"
           )}
         </div>
       </div>

@@ -20,8 +20,8 @@ import Message from "./Message";
 import { ImAttachment } from "react-icons/im";
 import axios from "axios";
 import { io } from "socket.io-client";
-
-const Conversation = ({ chat, arrivalmessage }) => {
+import { deepOrange, deepPurple } from "@mui/material/colors";
+const Conversation = ({ chat, arrivalmessage, windowDimenion }) => {
   const dispatch = useDispatch();
   const hmm = useSelector((state) => state.islogged);
   const currentchatid = useSelector((state) => state.setcurrentchat);
@@ -51,7 +51,7 @@ const Conversation = ({ chat, arrivalmessage }) => {
   useEffect(() => {
     socket.current = io("ws://localhost:8900");
     socket.current.on("getMessage", (data) => {
-      console.log("Incoming Message", data);
+      //   console.log("Incoming Message", data);
     });
   }, []);
   async function getConversations(chat) {
@@ -75,6 +75,16 @@ const Conversation = ({ chat, arrivalmessage }) => {
   useEffect(() => {
     getConversations();
   });
+
+  useEffect(() => {
+    if (windowDimenion.winWidth < 864) {
+      document.getElementById("top-bar-conversation").style.backgroundColor =
+        "rgb(39, 38, 38)";
+    } else {
+      document.getElementById("top-bar-conversation").style.backgroundColor =
+        "white";
+    }
+  }, [windowDimenion]);
   //Send Message Api integration
   async function handleSubmit(e) {
     e.preventDefault();
@@ -131,27 +141,41 @@ const Conversation = ({ chat, arrivalmessage }) => {
   }, [messages]);
   return (
     <div className="conversation-container">
-      <div className="top-bar-conversation">
+      <div className="top-bar-conversation" id="top-bar-conversation">
         <div className="back-button">
           <button className="bg-gree-500 rounded-full" onClick={removechat}>
             <TiArrowBack
               className="back-icon"
               id="back-icon"
               onClick={removechat}
+              color={windowDimenion.winWidth < 864 ? "white" : "black"}
             />
           </button>
         </div>
 
-        <div className="top-user-detail">
+        <div
+          className="top-user-detail"
+          style={{
+            color: `${windowDimenion.winWidth < 864 ? "white" : "black"} `,
+          }}
+        >
           <Avatar
-            src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-            style={{ border: "1px solid black" }}
-            size={40}
-          ></Avatar>
+            sx={{ width: 32, height: 32, backgroundColor: deepOrange[500] }}
+            color={"blue"}
+          >
+            {otheruser ? (otheruser.length > 0 ? otheruser[0] : "M") : "M"}
+          </Avatar>
           <b>{" " + otheruser}</b>
         </div>
 
-        <div className="online">
+        <div
+          className="online"
+          id="online"
+          style={{
+            color: `${windowDimenion.winWidth < 864 ? "white" : "black"} `,
+            marginTop: "10px",
+          }}
+        >
           <p>{"last seen 1 min ago"}</p>
         </div>
       </div>

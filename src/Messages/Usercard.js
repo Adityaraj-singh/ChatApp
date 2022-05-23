@@ -9,9 +9,11 @@ import {
   Route,
   Switch,
 } from "react-router-dom";
-import { Avatar, Image, Card, Badge } from "antd";
+import { Image, Card, Badge } from "antd";
+import Avatar from "@mui/material/Avatar";
 import { UserOutlined } from "@ant-design/icons";
 import store from "../forms/reducers/store";
+import DeleteIcon from "@mui/icons-material/Delete";
 import { useSelector, useDispatch, use } from "react-redux";
 import "./chatlist.css";
 
@@ -23,6 +25,44 @@ const Usercard = ({ conversation, currentuser, people }) => {
   const setcurrentchatuser = useSelector((state) => state.setcurrentchatuser);
   const dispatch = useDispatch();
   //    console.log(useSelector(state=>state))
+
+  function stringToColor(string) {
+    let hash = 0;
+    let i;
+
+    /* eslint-disable no-bitwise */
+    for (i = 0; i < string.length; i += 1) {
+      hash = string.charCodeAt(i) + ((hash << 5) - hash);
+    }
+
+    let color = "#";
+
+    for (i = 0; i < 3; i += 1) {
+      const value = (hash >> (i * 8)) & 0xff;
+      color += `00${value.toString(16)}`.slice(-2);
+    }
+    /* eslint-enable no-bitwise */
+
+    return color;
+  }
+
+  function stringAvatar(name) {
+    if (name.split(" ").length > 1) {
+      return {
+        sx: {
+          bgcolor: stringToColor(name),
+        },
+        children: `${name.split(" ")[0][0]}${name.split(" ")[1][0]}`,
+      };
+    } else {
+      return {
+        sx: {
+          bgcolor: stringToColor(name),
+        },
+        children: `${name[0]}`,
+      };
+    }
+  }
   useEffect(async () => {
     if (conversation) {
       //           console.log(conversation)
@@ -69,12 +109,7 @@ const Usercard = ({ conversation, currentuser, people }) => {
       >
         <div className="user-card">
           <div className="inner-card">
-            <Avatar
-              className="user-icon"
-              src={
-                <Image src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
-              }
-            />
+            <Avatar {...stringAvatar(chatuser.name)} />
 
             <div className="left-inner">
               <h6 className="username">{chatuser.name}</h6>
@@ -82,7 +117,7 @@ const Usercard = ({ conversation, currentuser, people }) => {
             </div>
             <div className="right-inner">
               <p>
-                <Badge className="message-count" size="small" count={2}></Badge>
+                <DeleteIcon />
               </p>
             </div>
           </div>

@@ -19,23 +19,35 @@ import { format, render, cancel, register } from "timeago.js";
 import { io } from "socket.io-client";
 const Message = ({ own, message, time }) => {
   const hmm = useSelector((state) => state.islogged);
+  const [chatuser, Setchatuser] = useState([]);
+  const conversation = useSelector((state) => state.setcurrentchatuser2);
+  useEffect(async () => {
+    if (conversation) {
+      //           console.log(conversation)
 
-  /*  useEffect(() => {
-    socket.current.emit("addUser", hmm[0].id);
-    socket.current.on("getUsers", (users) => {
-      console.log(users);
-    });
-  }, [hmm]); */
+      try {
+        const res = await Axios.get(
+          "http://localhost:5000/getuser/showinfo?userId=" + conversation
+        );
+
+        Setchatuser(res.data);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  }, [conversation]);
 
   return (
     <div className={own ? "message own" : "message"}>
       <div className="message-top">
-        <div className="messageImg">
-          <Avatar
-            src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-            style={{ border: "1px solid black", marginRight: "2px" }}
-            size={30}
-          ></Avatar>
+        <div className="messageImg" style={{ marginRight: "4px" }}>
+          <Avatar sx={{ width: 32, height: 32 }}>
+            {own
+              ? hmm[0].name[0]
+              : chatuser.name && chatuser.name.length > 0
+              ? JSON.stringify(chatuser.name)[1]
+              : "M"}
+          </Avatar>
         </div>
         <p className="message-text">{message}</p>
       </div>

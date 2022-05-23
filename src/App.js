@@ -1,19 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
-import 'antd/dist/antd.css';
-import './needed/main.css'
-import React, { useState,useEffect,createContext,useReducer } from 'react'
-import './needed/main.css'
-import {BrowserRouter as Router,Redirect,Route,Switch} from 'react-router-dom'
-import Home from './Home/Home'
-import Cart from './Home/Cart';
+import logo from "./logo.svg";
+import "./App.css";
+import "antd/dist/antd.css";
+import "./needed/main.css";
+import React, { useState, useEffect, createContext, useReducer } from "react";
+import "./needed/main.css";
+import {
+  BrowserRouter as Router,
+  Redirect,
+  Route,
+  Switch,
+} from "react-router-dom";
+import Home from "./Home/Home";
+import Cart from "./Home/Cart";
 
-import Authenticate from './forms/Authenticate';
-import store from './forms/reducers/store';
-import Show from './components/Show'
+import Authenticate from "./forms/Authenticate";
+import store from "./forms/reducers/store";
+import Show from "./components/Show";
 
-import Newhome from './components/Newhome';
+import Newhome from "./components/Newhome";
 function App() {
+  useEffect(() => {
+    document.getElementById("app").style.height = window.innerHeight;
+  }, []);
   /*
   useEffect(()=>{
     if(localStorage.getItem('user'))
@@ -25,7 +33,7 @@ function App() {
 
   },[])
   */
-/*
+  /*
   const [signin,Setsiginin]=useState(false)
   
     return(
@@ -37,33 +45,27 @@ function App() {
     )
   
     */
-  
-  
 
-
-  
-  const [data,Setdata]=useState()
-    return (
-      <Router >    
-      <div className="App">
-       <Switch>
-      <Route path='/' exact >
-       <Authenticate  data={data} Setdata={Setdata} />
+  const [data, Setdata] = useState();
+  return (
+    <Router>
+      <div className="App" id="app">
+        <Switch>
+          <Route path="/" exact>
+            <Authenticate data={data} Setdata={Setdata} />
           </Route>
-      <Route path="/home"   exact>
-        <Home data={data} Setdata={Setdata} /> 
-      </Route>
-       <Route path='/cart' component={Cart} / >
-         
-          <Route path='/new' component={Newhome} />
-      </Switch>
+          <Route path="/home" exact>
+            <Home data={data} Setdata={Setdata} />
+          </Route>
+          <Route path="/cart" component={Cart} />
+
+          <Route path="/new" component={Newhome} />
+        </Switch>
       </div>
-      
+    </Router>
+  );
 
-      </Router>
-    )
-
-        /*
+  /*
   else
   {
   
@@ -76,9 +78,6 @@ function App() {
     
 
   */
-  
-  
- 
 }
 
 export default App;

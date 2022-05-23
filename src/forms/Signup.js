@@ -6,6 +6,7 @@ import { Input, Space } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import { Redirect, useHistory } from "react-router";
 import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
+import TextField from "@mui/material/TextField";
 const Signup = ({ data, Setdata, login, Setlogin }) => {
   const [emailerr, Setemailerr] = useState(null);
   const [nameerr, Setnameerr] = useState("");
@@ -218,13 +219,13 @@ const Signup = ({ data, Setdata, login, Setlogin }) => {
           </center>
         </div>
         <a
-          className="text-blue-500 switch-sign-in"
+          className="text-red-500 switch-sign-in"
           id="switch-sign-in"
           href="#login"
           onClick={() => Setlogin(true)}
         >
           <strong>
-            <span className="text-black">Already a User </span>Login
+            <span className="text-blue-500">Already a User </span> Login
           </strong>
         </a>
       </div>
