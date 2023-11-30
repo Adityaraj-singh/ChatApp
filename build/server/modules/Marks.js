@@ -1,4 +1,5 @@
 const mongoose=require('mongoose')
+
 const MarksSchema=new mongoose.Schema({
     studentId:{
         type:String,
