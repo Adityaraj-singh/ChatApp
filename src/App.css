@@ -1,12 +1,14 @@
 .App {
   display: flex;
   flex-direction: row;
-  background-image: url("../src/assests/wallpaperflare.com_wallpaper.jpg");
+  background-color: rgb(157, 204, 192);
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
   justify-content: center;
   align-items: center;
+  width: 100%;
+  height: 100%;
 }
 
 .show {

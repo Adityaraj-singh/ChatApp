@@ -1,24 +1,27 @@
-import React, { useState, useEffect } from "react";
+import React, { useState,useRef, useEffect } from "react";
 import Axios from "axios";
 import "./signup.css";
-import { Redirect, useHistory } from "react-router";
+import { useHistory } from "react-router";
 
 import { UserOutlined } from "@ant-design/icons";
-import { Input, Space } from "antd";
+import { Input } from "antd";
 import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
-import { useSelector, useDispatch, use } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Spinner } from "react-bootstrap";
-import store from "../forms/reducers/store";
 
 const Login = ({ data, Setdata, login, Setlogin }) => {
   const dispatch = useDispatch();
   const hmm = useSelector((state) => state.islogged);
-
+const [isContainerActive,setIsContainerActive]=useState(false)
   const history = useHistory();
   const [email, Setemail] = useState("");
   const [password, Setpassword] = useState("");
   const [error, Seterror] = useState();
-  const [type, Settype] = useState("password");
+  const textAreaRef=useRef()
+
+  useEffect(()=>{
+    console.log('aditya',textAreaRef)
+  },[textAreaRef])
   /*
    
         if(localStorage.getItem('user'))
@@ -28,6 +31,7 @@ const Login = ({ data, Setdata, login, Setlogin }) => {
     
         }
         */
+
 
   function login() {
     dispatch({ type: "Signin", payload: { loading: true } });
@@ -76,6 +80,7 @@ const Login = ({ data, Setdata, login, Setlogin }) => {
                 placeholder="large size"
                 prefix={<UserOutlined />}
                 onChange={emaill}
+                ref={textAreaRef}
               />
             </div>
           </div>
@@ -92,6 +97,7 @@ const Login = ({ data, Setdata, login, Setlogin }) => {
                 iconRender={(visible) =>
                   visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
                 }
+                ref={textAreaRef}
                 onChange={passwordd}
               />
             </div>
@@ -120,7 +126,7 @@ const Login = ({ data, Setdata, login, Setlogin }) => {
           </center>
         </form>
         <a
-          className="text-red-500 switch-sign-in"
+          className="switch-sign-in"
           id="switch-sign-in"
           href="#signup"
           onClick={() => Setlogin(false)}

@@ -167,7 +167,7 @@ const Home = ({ data, Setdata }) => {
 
   async function adduser(user) {
     //  console.log(hmm.islogged[0].id, ":", user._id);
-    await Axios.post("http://localhost:5000/Conversation/ ", {
+    await Axios.post("http://localhost:2000/Conversation/ ", {
       senderId: hmm.islogged[0].id,
       recieverId: user._id,
     })

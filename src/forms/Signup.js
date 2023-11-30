@@ -2,11 +2,9 @@ import React, { useState, useEffect } from "react";
 import Axios from "axios";
 import "./signup.css";
 import auth from "./Firebase";
-import { Input, Space } from "antd";
-import { UserOutlined } from "@ant-design/icons";
-import { Redirect, useHistory } from "react-router";
+import { Input } from "antd";
+import {  useHistory } from "react-router";
 import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
-import TextField from "@mui/material/TextField";
 const Signup = ({ data, Setdata, login, Setlogin }) => {
   const [emailerr, Setemailerr] = useState(null);
   const [nameerr, Setnameerr] = useState("");
@@ -14,9 +12,7 @@ const Signup = ({ data, Setdata, login, Setlogin }) => {
   const [email, Setemail] = useState("");
   const [name, Setname] = useState("");
   const [pass, Setpass] = useState("");
-  const [type, Settype] = useState("password");
-  const [opt, Setopt] = useState(0);
-  const [go, Setgo] = useState(false);
+
   const history = useHistory();
   function enterdata() {
     if (localStorage.getItem("user")) {
@@ -49,14 +45,14 @@ const Signup = ({ data, Setdata, login, Setlogin }) => {
   }
 
   useEffect(() => {
-    if (emailerr == "") {
+    if (emailerr === "") {
       document.getElementById("email-input").style.width = "100%";
     }
 
-    if (nameerr == "") {
+    if (nameerr === "") {
       document.getElementById("name-input").style.width = "100%";
     }
-    if (passerr == "") {
+    if (passerr === "") {
       document.getElementById("password-input").style.width = "100%";
     }
   }, [emailerr, nameerr, passerr]);
@@ -64,7 +60,7 @@ const Signup = ({ data, Setdata, login, Setlogin }) => {
   function emailcheck(e) {
     Setemail(e.target.value);
     var re = /\S+@\S+\.\S+/;
-    if (re.test(e.target.value) == false) {
+    if (re.test(e.target.value) === false) {
       Setemailerr("Not Valid");
     } else {
       Setemailerr("Valid");
@@ -92,7 +88,7 @@ const Signup = ({ data, Setdata, login, Setlogin }) => {
   }
 
   function register() {
-    if (nameerr == "Good" && emailerr == "Valid" && passerr == "Good") {
+    if (nameerr === "Good" && emailerr === "Valid" && passerr === "Good") {
       let usermail = email;
       auth
         .createUserWithEmailAndPassword(usermail, pass)
@@ -110,13 +106,13 @@ const Signup = ({ data, Setdata, login, Setlogin }) => {
     }
   }
 
-  function toggle() {
-    if (type == "password") {
-      Settype("text");
-    } else {
-      Settype("password");
-    }
-  }
+  // function toggle() {
+  //   if (type == "password") {
+  //     Settype("text");
+  //   } else {
+  //     Settype("password");
+  //   }
+  // }
   return (
     <div className="signup">
       <div className="container">
@@ -142,7 +138,7 @@ const Signup = ({ data, Setdata, login, Setlogin }) => {
 
             <p
               className={
-                emailerr === "Not Valid" || emailerr == "Email already taken"
+                emailerr === "Not Valid" || emailerr === "Email already taken"
                   ? "error email-error text-red-500"
                   : "error email-error text-green-500"
               }
@@ -219,7 +215,7 @@ const Signup = ({ data, Setdata, login, Setlogin }) => {
           </center>
         </div>
         <a
-          className="text-red-500 switch-sign-in"
+          className="switch-sign-in"
           id="switch-sign-in"
           href="#login"
           onClick={() => Setlogin(true)}

@@ -20,7 +20,7 @@ import Message from "./Message";
 import { ImAttachment } from "react-icons/im";
 import axios from "axios";
 import { io } from "socket.io-client";
-import { deepOrange, deepPurple } from "@mui/material/colors";
+import { deepOrange } from "@mui/material/colors";
 const Conversation = ({ chat, arrivalmessage, windowDimenion }) => {
   const dispatch = useDispatch();
   const hmm = useSelector((state) => state.islogged);
