@@ -61,7 +61,7 @@ const [isContainerActive,setIsContainerActive]=useState(false)
 
   return (
     <div className="login">
-      <div className="container">
+      <div className={isContainerActive  ? "container-active" : "container"}>
         <center>
           <h2 className="text-xl">
             <strong>Welcome back</strong>
@@ -80,7 +80,9 @@ const [isContainerActive,setIsContainerActive]=useState(false)
                 placeholder="large size"
                 prefix={<UserOutlined />}
                 onChange={emaill}
-                ref={textAreaRef}
+                // onFocus={()=>setIsContainerActive(true)}
+                // onBlur={()=>setIsContainerActive(false)}
+
               />
             </div>
           </div>
@@ -99,6 +101,8 @@ const [isContainerActive,setIsContainerActive]=useState(false)
                 }
                 ref={textAreaRef}
                 onChange={passwordd}
+                // onFocus={()=>setIsContainerActive(true)}
+                // onBlur={()=>setIsContainerActive(false)}
               />
             </div>
           </div>
