@@ -2,33 +2,23 @@ import React, { useState, useEffect } from "react";
 import Axios from "axios";
 import "./Home.css";
 import { useHistory } from "react-router";
-import {
-  BrowserRouter as Router,
-  Redirect,
-  Route,
-  Switch,
-} from "react-router-dom";
+
 import { useRef } from "react";
 import { io } from "socket.io-client";
 
-import { Avatar, Card, Badge } from "antd";
-import { UserOutlined } from "@ant-design/icons";
-import store from "../forms/reducers/store";
-import { useSelector, useDispatch, use } from "react-redux";
-import { Link } from "react-router-dom";
+import { Avatar, } from "antd";
+
+import { useSelector, useDispatch,  } from "react-redux";
 import Conversation from "../Messages/Conversation";
-import { AutoComplete } from "antd";
 import Chatlist from "../Messages/Chatlist";
-import { List, message, Skeleton, Divider } from "antd";
+import { List} from "antd";
 
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 
 import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
 import Tooltip from "@mui/material/Tooltip";
-import PersonAdd from "@mui/icons-material/PersonAdd";
 import Box from "@mui/material/Box";
 import Logout from "@mui/icons-material/Logout";
 const Home = ({ data, Setdata }) => {
@@ -104,28 +94,30 @@ const Home = ({ data, Setdata }) => {
 
   useEffect(() => {
     socket.current = io("ws://localhost:8900");
+   
     if (hmm.islogged[0].id && hmm.islogged[0].id !== "defaultID")
       socket.current.emit("addUser", hmm.islogged[0].id);
     socket.current.on("getUsers", (users) => {
-      // console.log("userss", users);
       setOnlineusers([...onlineusers, users]);
     });
-  }, [hmm]);
-
-  useEffect(() => {
     socket.current.on("getMessage", (data) => {
-      //  console.log("Incoming Message", data);
+      console.log("Incoming Message", data);
       setArrivalmessage({
         sender: data.senderId,
         text: data.text,
         createdAt: Date.now(),
       });
     });
-  });
+  }, [hmm]);
+
+  useEffect(()=>{
+    console.log('arival message',arrivalmessage)
+  },[arrivalmessage])
+
   useEffect(async () => {
     if (search.length > 0) {
       const res = await Axios.get(
-        "http://localhost:5000/getuser/search?username=" + search
+        "http://localhost:4000/getuser/search?username=" + search
       );
       console.log("res");
       console.log(res.data);
@@ -137,12 +129,8 @@ const Home = ({ data, Setdata }) => {
     }
   }, [search]);
 
-  useEffect(() => {
-    //  console.log("changingg", arrivalmessage);
-  }, [arrivalmessage]);
-
   useEffect(async () => {
-    await Axios.get("http://localhost:5000/authenticate", {
+    await Axios.get("http://localhost:4000/authenticate", {
       headers: {
         authorization: `Bearer ${localStorage.getItem("user")}`,
       },
@@ -167,7 +155,7 @@ const Home = ({ data, Setdata }) => {
 
   async function adduser(user) {
     //  console.log(hmm.islogged[0].id, ":", user._id);
-    await Axios.post("http://localhost:2000/Conversation/ ", {
+    await Axios.post("http://localhost:4000/Conversation/", {
       senderId: hmm.islogged[0].id,
       recieverId: user._id,
     })

@@ -24,20 +24,16 @@ const Chatlist = () => {
     const getConversations = async () => {
       try {
         const res = await Axios.get(
-          "http://localhost:5000/conversation/" + hmm[0].id
+          "http://localhost:4000/conversation/" + hmm[0].id
         );
-        //console.log(res)
         Setconversation(res.data);
       } catch (err) {
         console.log(err);
       }
     };
     getConversations();
-    console.log("chatlists", conversation);
   }, [hmm]);
 
-  //   console.log('convossss')
-  //   console.log(conversation)
   return (
     <div className="chatlist-container">
       {conversation.length > 0

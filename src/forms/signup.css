@@ -6,6 +6,12 @@
   max-width: 500px;
   min-width: 350px;
 }
+.switch-align{
+display: flex;
+flex-direction: row;
+width: 100%;
+justify-content: space-evenly;
+}
 .login {
   margin-top: 50px;
   max-width: 500px;
@@ -27,8 +33,10 @@
   padding: 20px;
   margin-top: 50px;
   box-shadow: 0 1px 5px rgba(0,0,0,0.15);
+  border: 1px solid   rgb(61, 130, 113);
 }
 .container:hover{
+  border: 1px solid  rgb(61, 130, 113);
   -moz-box-shadow: 0px 0px 5px #1e1e1e; 
   -webkit-box-shadow: 0px 0px 5px #1e1e1e; 
   box-shadow: 10px  20px 15px #1e1e1e;

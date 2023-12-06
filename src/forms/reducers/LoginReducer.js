@@ -7,7 +7,7 @@ const initialstate=[{
 
 }]
 export default function islogged(state=initialstate,action){
- 
+
     switch(action.type)
     {
         case "Signin":

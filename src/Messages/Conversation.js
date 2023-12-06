@@ -41,16 +41,16 @@ const Conversation = ({ chat, arrivalmessage, windowDimenion }) => {
     }
   }, [arrivalmessage, currentchattingfriend]);
 
-  useEffect(() => {
-    socket.current = io("ws://localhost:8900");
-    socket.current.on("getMessage", (data) => {
-      //   console.log("Incoming Message", data);
-    });
-  }, []);
+  // useEffect(() => {
+  //   socket.current = io("ws://localhost:8900");
+  //   socket.current.on("getMessage", (data) => {
+  //       console.log("Incoming Message", data);
+  //   });
+  // });
   async function getConversations(chat) {
     try {
       const res = await Axios.get(
-        "http://localhost:5000/conversation/" + hmm[0].id
+        "http://localhost:4000/conversation/" + hmm[0].id
       );
 
       if (res.data.length > 0) {
@@ -67,7 +67,7 @@ const Conversation = ({ chat, arrivalmessage, windowDimenion }) => {
 
   useEffect(() => {
     getConversations();
-  });
+  },[]);
 
   useEffect(() => {
     if (windowDimenion.winWidth < 864) {
@@ -97,7 +97,7 @@ const Conversation = ({ chat, arrivalmessage, windowDimenion }) => {
         text: newMessage,
       });
       const res = await axios.post(
-        "http://localhost:5000/message/send",
+        "http://localhost:4000/message/send",
         message
       );
       Setmessages([...messages, res.data]);
@@ -106,26 +106,25 @@ const Conversation = ({ chat, arrivalmessage, windowDimenion }) => {
       console.log(err);
     }
   }
-
+  const getConversation = async () => {
+    try {
+      //here chat is  conversation id
+      const res = await axios.get(
+        "http://localhost:4000/message/show/" + chat
+      );
+      const res2 = await Axios.get(
+        "http://localhost:4000/getuser/showinfo?userId=" +
+          currentchattingfriend
+      );
+      // console.log(res)
+      Setmessages(res.data);
+      Setotheruser(res2.data.name);
+    } catch (err) {
+      console.log(err);
+    }
+  };
   //get all chats as soon as window loads
   useEffect(async () => {
-    const getConversation = async () => {
-      try {
-        //here chat is  conversation id
-        const res = await axios.get(
-          "http://localhost:5000/message/show/" + chat
-        );
-        const res2 = await Axios.get(
-          "http://localhost:5000/getuser/showinfo?userId=" +
-            currentchattingfriend
-        );
-        // console.log(res)
-        Setmessages(res.data);
-        Setotheruser(res2.data.name);
-      } catch (err) {
-        console.log(err);
-      }
-    };
     getConversation();
   }, [chat]);
 
@@ -169,7 +168,7 @@ const Conversation = ({ chat, arrivalmessage, windowDimenion }) => {
             marginTop: "10px",
           }}
         >
-          <p>{"last seen 1 min ago"}</p>
+          <p>{"1 min"}</p>
         </div>
       </div>
       <div className="conversations">

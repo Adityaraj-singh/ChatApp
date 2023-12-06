@@ -47,6 +47,7 @@ const Usercard = ({ conversation, currentuser, people }) => {
   }
 
   function stringAvatar(name) {
+    console.log('vvvvvv',chatuser)
     if (name.split(" ").length > 1) {
       return {
         sx: {
@@ -70,7 +71,7 @@ const Usercard = ({ conversation, currentuser, people }) => {
 
       try {
         const res = await Axios.get(
-          "http://localhost:5000/getuser/showinfo?userId=" + friend
+          "http://localhost:4000/getuser/showinfo?userId=" + friend
         );
         // console.log(res)
         Setchatuser(res.data);
@@ -109,7 +110,7 @@ const Usercard = ({ conversation, currentuser, people }) => {
       >
         <div className="user-card">
           <div className="inner-card">
-            <Avatar {...stringAvatar(chatuser.name)} />
+            <Avatar  />
 
             <div className="left-inner">
               <h6 className="username">{chatuser.name}</h6>
